@@ -51,9 +51,8 @@ public class MainActivity extends AppCompatActivity {
         Loader = findViewById(R.id.loader);
 
         database = FirebaseDatabase.getInstance();
-        ref = database.getReference("User");
+        ref = database.getReference("Folders");
         list = new ArrayList<String>();
-        url = new ArrayList<String>();
         adapter = new ArrayAdapter<String>(this,R.layout.userinfo,R.id.userInfo,list);
         ref.addValueEventListener(new ValueEventListener() {
             @Override
@@ -63,8 +62,7 @@ public class MainActivity extends AppCompatActivity {
                 {
                     Loader.setVisibility(View.VISIBLE);
                     user = ds.getValue(User.class);
-                    list.add(String.valueOf(user.getPortal()));
-                    url.add(String.valueOf(user.getUrl()));
+                    list.add(String.valueOf(user.getName()));
                 }
                 Loader.setVisibility(View.GONE);
                 listView.setAdapter(adapter);
@@ -72,9 +70,9 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
                         //Toast.makeText(getApplicationContext(), url.get(position), Toast.LENGTH_SHORT).show();
-                        Intent webActivity = new Intent(MainActivity.this,WebLay.class);
+                        Intent webActivity = new Intent(MainActivity.this,secondActivity.class);
                         Bundle bundle = new Bundle();
-                        bundle.putString("url",url.get(position));
+                        bundle.putString("url",list.get(position));
                         webActivity.putExtras(bundle);
                         startActivity(webActivity);
                     }
